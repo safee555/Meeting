@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zehra ❤️</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+overflow:hidden;
+}
+
+/* floating hearts */
+
+.heart{
+position:fixed;
+font-size:16px;
+opacity:0.5;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+/* card */
+
+.card{
+background:white;
+padding:35px;
+border-radius:20px;
+text-align:center;
+width:90%;
+max-width:420px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+h1{
+color:#ff4d6d;
+margin-bottom:10px;
+}
+
+p{
+font-size:18px;
+color:#555;
+line-height:1.6;
+margin-bottom:30px;
+}
+
+/* buttons */
+
+.buttons{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+button{
+padding:14px 24px;
+font-size:16px;
+border-radius:30px;
+border:none;
+cursor:pointer;
+}
+
+#yesBtn{
+background:#ff4d6d;
+color:white;
+}
+
+#noBtn{
+background:#eee;
+border:2px solid #ff4d6d;
+}
+
+/* final message */
+
+#final{
+position:fixed;
+inset:0;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+color:white;
+opacity:0;
+pointer-events:none;
+padding:30px;
+}
+
+#final h1{
+font-size:36px;
+margin-bottom:10px;
+}
+
+/* responsive */
+
+@media(max-width:480px){
+
+.card{
+padding:25px;
+}
+
+h1{
+font-size:24px;
+}
+
+p{
+font-size:16px;
+}
+
+button{
+font-size:15px;
+padding:12px 18px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Zehra ❤️</h1>
+
+<p>
+I just need couple of minutes of your time today.  
+Can we meet at <b>Mulund Station</b>?  
+I promise it will be worth it 😊
+</p>
+
+<div class="buttons">
+<button id="yesBtn">Okay let's meet</button>
+<button id="noBtn">Not today</button>
+</div>
+
+</div>
+
+<div id="final">
+
+<h1>Perfect ❤️</h1>
+
+<p>
+I'll be waiting for you at Mulund Station today.  
+Don't make me wait too long 😌
+</p>
+
+</div>
+
+<script>
+
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const final=document.getElementById("final");
+
+/* floating hearts */
+
+setInterval(()=>{
+
+let h=document.createElement("div");
+
+h.innerHTML="💖";
+h.className="heart";
+
+h.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),8000);
+
+},700);
+
+
+/* detect mobile */
+
+const isMobile=/Mobi|Android/i.test(navigator.userAgent);
+
+
+/* desktop smooth escape */
+
+if(!isMobile){
+
+document.addEventListener("mousemove",(e)=>{
+
+const rect=noBtn.getBoundingClientRect();
+
+const centerX=rect.left+rect.width/2;
+const centerY=rect.top+rect.height/2;
+
+const dx=centerX-e.clientX;
+const dy=centerY-e.clientY;
+
+const distance=Math.sqrt(dx*dx+dy*dy);
+
+if(distance<120){
+
+const angle=Math.atan2(dy,dx);
+
+let x=rect.left+Math.cos(angle)*40;
+let y=rect.top+Math.sin(angle)*40;
+
+/* keep inside screen */
+
+x=Math.max(10,Math.min(window.innerWidth-rect.width-10,x));
+y=Math.max(10,Math.min(window.innerHeight-rect.height-10,y));
+
+noBtn.style.position="fixed";
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
+
+}
+
+});
+
+}
+
+
+/* mobile jump */
+
+if(isMobile){
+
+function moveNo(){
+
+const rect=noBtn.getBoundingClientRect();
+
+let x=Math.random()*(window.innerWidth-rect.width);
+let y=Math.random()*(window.innerHeight-rect.height);
+
+/* keep inside screen */
+
+x=Math.max(10,Math.min(window.innerWidth-rect.width-10,x));
+y=Math.max(10,Math.min(window.innerHeight-rect.height-10,y));
+
+noBtn.style.position="fixed";
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
+
+}
+
+noBtn.addEventListener("touchstart",moveNo);
+noBtn.addEventListener("click",moveNo);
+
+}
+
+
+/* yes click */
+
+yesBtn.onclick=function(){
+
+document.querySelector(".card").style.opacity=0;
+
+setTimeout(()=>{
+
+final.style.opacity=1;
+final.style.pointerEvents="auto";
+
+},600);
+
+};
+
+</script>
+
+</body>
+</html>
